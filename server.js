@@ -7,6 +7,7 @@ const knex = require('knex')
 const register = require('./controllers/register')
 const sigin = require('./controllers/signin')
 const image = require('./controllers/image')
+const users = require('./controllers/users')
 
 
 const db = knex({
@@ -26,12 +27,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/', (req, res) => {
-    db.select('*').from('users').then(data => {
-        res.json(data); 
-    });
-    
-})
+app.get('/', (req, res) => {users.handleUsers(req, res, db) })
 
 app.post('/signin', (req, res) => {sigin.handleSigin(req, res, db, bcrypt) })
 
@@ -39,16 +35,6 @@ app.post('/register', (req, res) => {register.handleRegister(req, res, db, bcryp
 
 app.put('/image', (req, res) => {image.handleImage(req, res, db) })
 
-
-
-
-// // Load hash from your password DB.
-// bcrypt.compare("bacon", hash, function(err, res) {
-//     // res == true
-// });
-// bcrypt.compare("veggies", hash, function(err, res) {
-//     // res = false
-// });
 
 
 app.listen(3000, () => {
