@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt-nodejs')
 const cors = require('cors')
 const knex = require('knex')
 
+const register = require('./controllers/register')
+const sigin = require('./controllers/signin')
+const image = require('./controllers/image')
+
 
 const db = knex({
     client: 'pg',
@@ -29,39 +33,11 @@ app.get('/', (req, res) => {
     
 })
 
-app.post('/signin', (req, res) => {
-    const { email, password } = req.body
+app.post('/signin', (req, res) => {sigin.handleSigin(req, res, db, bcrypt) })
 
-    db.select('email', 'hash').from('login')
-    .where('email', '=', email )
-    .then(data => {
-        const isValid = bcrypt.compareSync(password, data[0].hash)
+app.post('/register', (req, res) => {register.handleRegister(req, res, db, bcrypt) })
 
-        isValid
-        ? db.select('*').from('users').where('email', '=', email)
-            .then(user => {
-                res.json(user[0])
-            }).catch(err => res.status(400).json('unable to get user'))
-        : res.status(400).json('Error Siging in'); 
-    })
-    .catch(error => res.status(400).json('Wrong Credentials'))
-
-})
-
-app.post('/register', )
-
-app.put('/image', (req, res) => {
-    const { id } = req.body;
-    console.log(id)
-    db('users')
-    .where('id', '=', id)
-    .increment('entries', 1)
-    .returning('entries')
-    .then(entries => {
-        res.json(entries[0])
-    })
-    .catch(error => res.status(400).json('unable to get entrie(s)'))
-})
+app.put('/image', (req, res) => {image.handleImage(req, res, db) })
 
 
 
