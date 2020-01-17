@@ -1,8 +1,9 @@
 
 const handleUsers = (req, res, db) => {
-    db.select('*').from('users').then(data => {
-        res.json(data); 
-    });
+    res.json("It is working")
+    // db.select('*').from('users').then(data => {
+    //     res.json(data); 
+    // });
     
 }
 

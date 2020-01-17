@@ -1,13 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Face Recognition Brain is a full-stack web application that detects faces on any image using a Machine learning API (Clarifai).",
   "main": "index.js",
   "scripts": {
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jotham Ardel",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
