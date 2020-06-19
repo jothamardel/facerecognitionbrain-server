@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const bcrypt = require('bcrypt-nodejs')
 const cors = require('cors')
 const knex = require('knex')
+const morgan = require('morgan');
 
 const register = require('./controllers/register')
 const sigin = require('./controllers/signin')
@@ -20,16 +21,17 @@ const db = knex({
 
 
 
-const app = express()
+const app = express();
 
-app.use(bodyParser.json())
-app.use(cors())
+app.use(morgan('combined'));
+app.use(bodyParser.json());
+app.use(cors());
 
-app.get('/', (req, res) => {users.handleUsers(req, res, db) })
-app.post('/signin', (req, res) => {sigin.handleSigin(req, res, db, bcrypt) })
-app.post('/register', (req, res) => {register.handleRegister(req, res, db, bcrypt) })
-app.put('/image', (req, res) => {image.handleImage(req, res, db) })
-app.post('/imageurl', (req, res) => {image.handleApiCall(req, res) })
+app.get('/', (req, res) => {users.handleUsers(req, res, db) });
+app.post('/signin', (req, res) => {sigin.handleSigin(req, res, db, bcrypt) });
+app.post('/register', (req, res) => {register.handleRegister(req, res, db, bcrypt) });
+app.put('/image', (req, res) => {image.handleImage(req, res, db) });
+app.post('/imageurl', (req, res) => {image.handleApiCall(req, res) });
 
 
 // let PORT = process.env.PORT
@@ -37,7 +39,7 @@ let PORT = 3000;
 
 app.listen(PORT || 3000, () => {
     console.log(`app is running on port ${PORT}`)
-}) 
+});
 
 
 /*
